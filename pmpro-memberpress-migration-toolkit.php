@@ -109,31 +109,34 @@ function pmprompmt_queue_user_migrations( $migrate_stripe_gateway_id = false, $o
 	// Pause the Action Scheduler while we queue tasks.
 	PMPro_Action_Scheduler::instance()->halt();
 
-	foreach ( $user_ids as $user_id ) {
-		PMPro_Action_Scheduler::instance()->maybe_add_task(
-			'pmprompmt_migrate_user',
-			array(
-				'user_id' => $user_id,
-				'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
-			),
-			'pmpro_async_tasks'
-		);
-	}
+	try {
+		foreach ( $user_ids as $user_id ) {
+			PMPro_Action_Scheduler::instance()->maybe_add_task(
+				'pmprompmt_migrate_user',
+				array(
+					'user_id' => $user_id,
+					'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
+				),
+				'pmpro_async_tasks'
+			);
+		}
 
-	// If this batch was full, there may be more users to queue.
-	if ( count( $user_ids ) === $batch_size ) {
-		PMPro_Action_Scheduler::instance()->maybe_add_task(
-			'pmprompmt_queue_user_migrations',
-			array(
-				'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
-				'offset' => $offset + $batch_size,
-			),
-			'pmpro_async_tasks'
-		);
+		// If this batch was full, there may be more users to queue.
+		if ( count( $user_ids ) === $batch_size ) {
+			PMPro_Action_Scheduler::instance()->maybe_add_task(
+				'pmprompmt_queue_user_migrations',
+				array(
+					'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
+					'offset' => $offset + $batch_size,
+				),
+				'pmpro_async_tasks'
+			);
+		}
+	} finally {
+		// Always unpause the Action Scheduler, even if queuing throws, so a failure
+		// here doesn't leave all PMPro Action Scheduler tasks halted site-wide.
+		PMPro_Action_Scheduler::instance()->resume();
 	}
-
-	// Unpause the Action Scheduler now that we are done queuing tasks.
-	PMPro_Action_Scheduler::instance()->resume();
 }
 add_action( 'pmprompmt_queue_user_migrations', 'pmprompmt_queue_user_migrations', 10, 2 );
 
