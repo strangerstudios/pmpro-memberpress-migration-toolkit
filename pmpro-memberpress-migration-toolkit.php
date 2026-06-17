@@ -90,32 +90,55 @@ function pmprompmt_page() {
 
 /**
  * Action Scheduler function to queue up all users for migration from MemberPress to PMPro.
+ *
+ * Users are queued in batches so that a single run of this task stays short. If there
+ * may be more users to queue, this task re-queues itself with an updated offset.
  */
-function pmprompmt_queue_user_migrations( $migrate_stripe_gateway_id = false ) {
+function pmprompmt_queue_user_migrations( $migrate_stripe_gateway_id = false, $offset = 0 ) {
 	global $wpdb;
 
-	// Get an array of all user IDs.
-	$user_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->users" );
+	$batch_size = 250;
+	$offset = intval( $offset );
 
-	if ( count( $user_ids ) > 250 ) {
-			PMPro_Action_Scheduler::instance()->halt();
-		}
-
-	foreach ( $user_ids as $user_id ) {
-		PMPro_Action_Scheduler::instance()->maybe_add_task(
-			'pmprompmt_migrate_user',
-			array(
-				'user_id' => $user_id,
-				'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
-			),
-			'pmpro_async_tasks'
-		);
+	// Get the next batch of user IDs.
+	$user_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->users ORDER BY ID ASC LIMIT %d OFFSET %d", $batch_size, $offset ) );
+	if ( empty( $user_ids ) ) {
+		return;
 	}
 
-	// If we paused the Action Scheduler, unpause it now.
-	PMPro_Action_Scheduler::instance()->resume();
+	// Pause the Action Scheduler while we queue tasks.
+	PMPro_Action_Scheduler::instance()->halt();
+
+	try {
+		foreach ( $user_ids as $user_id ) {
+			PMPro_Action_Scheduler::instance()->maybe_add_task(
+				'pmprompmt_migrate_user',
+				array(
+					'user_id' => $user_id,
+					'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
+				),
+				'pmpro_async_tasks'
+			);
+		}
+
+		// If this batch was full, there may be more users to queue.
+		if ( count( $user_ids ) === $batch_size ) {
+			PMPro_Action_Scheduler::instance()->maybe_add_task(
+				'pmprompmt_queue_user_migrations',
+				array(
+					'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
+					'offset' => $offset + $batch_size,
+				),
+				'pmpro_async_tasks'
+			);
+		}
+	} finally {
+		// Always unpause the Action Scheduler, even if queuing throws, so a failure
+		// here doesn't leave all PMPro Action Scheduler tasks halted site-wide.
+		PMPro_Action_Scheduler::instance()->resume();
+	}
 }
-add_action( 'pmprompmt_queue_user_migrations', 'pmprompmt_queue_user_migrations', 10, 1 );
+add_action( 'pmprompmt_queue_user_migrations', 'pmprompmt_queue_user_migrations', 10, 2 );
 
 /**
  * Action Scheduler function to migrate a single MemberPress member to PMPro.
