@@ -1,0 +1,917 @@
+# Copyright (C) 2026 Paid Memberships Pro
+# This file is distributed under the same license as the Paid Memberships Pro - MemberPress Migration Toolkit Add On plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Paid Memberships Pro - MemberPress Migration Toolkit Add On 0.1.1\n"
+"Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
+"Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
+"Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-06-17T16:54:58+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: pmpro-memberpress-migration-toolkit\n"
+
+#. Plugin Name of the plugin
+#: pmpro-memberpress-migration-toolkit.php
+msgid "Paid Memberships Pro - MemberPress Migration Toolkit Add On"
+msgstr ""
+
+#. Plugin URI of the plugin
+#: pmpro-memberpress-migration-toolkit.php
+msgid "https://www.paidmembershipspro.com/add-ons/pmpro-memberpress-migration-toolkit-add-on/"
+msgstr ""
+
+#. Description of the plugin
+#: pmpro-memberpress-migration-toolkit.php
+msgid "Tools to help you migrate your membership site data from MemberPress to Paid Memberships Pro."
+msgstr ""
+
+#. Author of the plugin
+#: pmpro-memberpress-migration-toolkit.php
+msgid "Paid Memberships Pro"
+msgstr ""
+
+#. Author URI of the plugin
+#: pmpro-memberpress-migration-toolkit.php
+msgid "https://www.paidmembershipspro.com"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:18
+msgid "Migrate Content Restrictions"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:66
+#: classes/class-pmprompmt-migration-step-levels.php:75
+#: classes/class-pmprompmt-migration-step-other.php:45
+#: classes/class-pmprompmt-migration-step-users.php:76
+msgid "What Will Be Migrated"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:68
+msgid "Single post and page restrictions (membership-based)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:69
+msgid "Category-based restrictions"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:70
+msgid "Parent page restrictions (including child pages)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:71
+msgid "All posts/pages restriction rules"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:74
+#: classes/class-pmprompmt-migration-step-levels.php:84
+#: classes/class-pmprompmt-migration-step-other.php:65
+#: classes/class-pmprompmt-migration-step-users.php:84
+msgid "What Will NOT Be Migrated"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:77
+msgid "Custom Post Type Restrictions:"
+msgstr ""
+
+#. translators: %s: Link to Custom Post Type Membership Access Add On
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:81
+#, php-format
+msgid "Use the %s or specific PMPro integrations to restrict custom post types."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:82
+msgid "Custom Post Type Membership Access Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:87
+msgid "Drip Content (Time-Based Content Release):"
+msgstr ""
+
+#. translators: %s: Link to Series Add On
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:91
+#, php-format
+msgid "Use the %s to recreate drip content schedules."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:92
+msgid "Series: Drip-Feed Content Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:97
+msgid "Partial Content Restrictions Within a Post:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:98
+msgid "PMPro restricts entire posts by default. Use the [membership] shortcode or Content Visibility block to wrap restricted sections within a post for partial content protection."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:101
+msgid "Content Expiration Rules:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:102
+msgid "Time-limited content access based on membership start date is not migrated. Configure using custom code."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:105
+msgid "Role/Capability-Based Restrictions:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:106
+msgid "Role/capability-based restrictions are not migrated. Configure using custom code."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:109
+msgid "User-Specific Restrictions:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:110
+msgid "Individual user access rules must be set up manually or via custom code."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:113
+msgid "MemberPress Product Category Restrictions:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:114
+msgid "Product category rules are not migrated. Set up category restrictions in PMPro under Memberships > Settings > Advanced."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:117
+msgid "Level Group-Based Restrictions:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:118
+msgid "MemberPress group-based rules must be recreated using PMPro level assignments."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:121
+msgid "Paywall/Metered Content:"
+msgstr ""
+
+#. translators: %s: Link to Limit Post Views Add On
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:125
+#, php-format
+msgid "Use the %s for metered paywall functionality."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:126
+msgid "Limit Post Views Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:132
+#: classes/class-pmprompmt-migration-step-levels.php:106
+msgid "After Migration"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:133
+msgid "Review your content restrictions by visiting protected pages and verifying access."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:135
+msgid "Queue Content Restriction Migrations"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:18
+msgid "Final Steps"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:44
+msgid "Congratulations! Your migration from MemberPress to Paid Memberships Pro is complete. Please review the following checklist to ensure everything is configured correctly."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:46
+msgid "Post-Migration Checklist"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:48
+msgid "1. Verify Membership Levels"
+msgstr ""
+
+#. translators: %s: Link to PMPro membership levels admin page
+#: classes/class-pmprompmt-migration-step-final.php:54
+#, php-format
+msgid "Review levels at %s"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:55
+#: classes/class-pmprompmt-migration-step-levels.php:112
+msgid "Memberships > Settings > Levels"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:59
+msgid "Configure expiration dates, trials, and billing limits that were not migrated"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:60
+msgid "Verify pricing and billing cycles are correct"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:63
+msgid "2. Verify User Memberships and Orders"
+msgstr ""
+
+#. translators: %s: Link to PMPro members admin page
+#: classes/class-pmprompmt-migration-step-final.php:69
+#, php-format
+msgid "Check member list at %s"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:70
+msgid "Memberships > Members"
+msgstr ""
+
+#. translators: %s: Link to PMPro orders admin page
+#: classes/class-pmprompmt-migration-step-final.php:78
+#, php-format
+msgid "Review orders at %s"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:79
+msgid "Memberships > Orders"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:83
+msgid "Spot-check a few members to verify their membership status and order history"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:86
+msgid "3. Test the Checkout Process"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:88
+msgid "Create a test checkout with a small amount or test mode"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:89
+msgid "Verify payment gateway is processing correctly"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:90
+msgid "Test the member account page and member-only content access"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:93
+msgid "4. Configure Email Templates"
+msgstr ""
+
+#. translators: %s: Link to PMPro email templates admin page
+#: classes/class-pmprompmt-migration-step-final.php:99
+#, php-format
+msgid "Set up email templates at %s"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:100
+#: classes/class-pmprompmt-migration-step-other.php:73
+msgid "Memberships > Settings > Email Templates"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:104
+msgid "Customize welcome, cancellation, and receipt emails"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:105
+msgid "Test sending emails to verify delivery"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:108
+msgid "5. Install Recommended Add Ons"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:109
+msgid "Based on common MemberPress features, you may want to install these PMPro Add Ons:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:112
+msgid "Series: Drip-Feed Content"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:113
+msgid "- For time-released content"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:116
+msgid "Group Accounts"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:117
+msgid "- For corporate/team memberships"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:120
+msgid "Courses for Membership"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:121
+msgid "- For course/lesson content"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:124
+msgid "Extra Expiration Warning Emails"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:125
+msgid "- For membership reminder emails"
+msgstr ""
+
+#. translators: %1$s: Link to PMPro add-ons website, %2$s: Link to PMPro add-ons admin page
+#: classes/class-pmprompmt-migration-step-final.php:132
+#, php-format
+msgid "Browse all Add Ons at %1$s or in the %2$s."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:133
+msgid "paidmembershipspro.com/add-ons"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:134
+msgid "PMPro Add Ons dashboard"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:139
+msgid "6. Update Site Links and Navigation"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:141
+msgid "Update menu links to point to new PMPro pages (account, checkout, etc.)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:142
+msgid "Update any MemberPress shortcodes to PMPro equivalents"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:143
+msgid "Set up redirects from old MemberPress URLs if needed"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:146
+msgid "7. Deactivate MemberPress (When Ready)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:148
+msgid "Once you have verified everything is working, you can deactivate the MemberPress plugin"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:149
+msgid "Keep a backup of your database before deactivating, in case you need to reference MemberPress data"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:150
+msgid "Consider keeping MemberPress data in the database temporarily for reference"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:153
+msgid "Need Help?"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:156
+msgid "PMPro Documentation"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-final.php:159
+msgid "PMPro Support"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:18
+msgid "Migrate Membership Levels"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:64
+msgid "No MemberPress levels found."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:77
+msgid "Membership level names and descriptions"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:78
+msgid "Initial payment amounts (price)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:79
+msgid "Recurring payment settings (billing amount, cycle number, cycle period)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:80
+msgid "MemberPress level groups converted to PMPro level groups"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:81
+msgid "Upgrade/downgrade path settings"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:87
+msgid "Expiration Dates/Membership Duration:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:88
+msgid "Configure in PMPro level settings under \"Membership Expiration\"."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:91
+msgid "Trial Pricing and Trial Periods:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:92
+msgid "Configure in PMPro level settings under \"Recurring Subscription\"."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:95
+msgid "Limited Payment Cycles (Billing Limits):"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:96
+msgid "Set in PMPro level settings under \"Billing Cycle Limit\"."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:99
+msgid "Upgrade/Downgrade Paths"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:102
+msgid "Custom Levels Page CSS/Styling"
+msgstr ""
+
+#. translators: %s: Link to PMPro membership levels admin page
+#: classes/class-pmprompmt-migration-step-levels.php:111
+#, php-format
+msgid "Review your levels at %s to configure expiration, trials, and billing limits."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:117
+msgid "Migrate All Levels And Level Groups Now"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:119
+msgid "Or, map levels manually"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:138
+msgid "MemberPress Level"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:139
+msgid "Map to PMPro Level"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:153
+msgid "Select PMPro Level"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:170
+msgid "Save Level Map"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-levels.php:188
+msgid "Level migration has already been completed. To re-run the migration, please clear the existing level map first."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:18
+msgid "Activate License Key"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:44
+msgid "To install premium Add Ons and receive support for the MemberPress Migration Toolkit, please enter your Paid Memberships Pro license key below."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:46
+msgid "About This Step"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:47
+msgid "This is not a data migration step. Activating your PMPro license allows you to:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:49
+msgid "Install premium PMPro Add Ons that may replace MemberPress features not covered by this migration"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:50
+msgid "Receive priority support during and after your migration"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:51
+msgid "Access automatic updates for all premium Add Ons"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:53
+msgid "If you do not have a license key, you can skip this step and continue with the migration."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:56
+msgid "Activate License"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:78
+msgid "License key activated successfully."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-license.php:80
+msgid "Invalid license key. Please try again."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:18
+#: classes/class-pmprompmt-migration-step-other.php:202
+msgid "Migrate Other Settings"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:48
+msgid "Membership Pages:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:49
+msgid "Account, Billing, Cancel, Checkout, Confirmation, Orders, Levels, Login, and Profile pages will be created."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:52
+msgid "Payment Currency:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:53
+msgid "Your MemberPress currency setting will be applied to PMPro."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:56
+msgid "Business Address:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:57
+msgid "Business name, address, city, state, postal code, and country."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:60
+msgid "Custom User Field Configuration:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:61
+msgid "Field names, labels, types, required settings, and options are migrated. Note: MemberPress and PMPro store data for date, checkboxes, checkbox_grouped, and file fields differently. If you are using these field types, this data will require a separate custom migration."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:68
+msgid "Email Notifications/Templates:"
+msgstr ""
+
+#. translators: %s: Link to PMPro email templates admin page
+#: classes/class-pmprompmt-migration-step-other.php:72
+#, php-format
+msgid "Configure email templates at %s. PMPro includes comprehensive email customization options."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:78
+msgid "Coupon/Discount Codes:"
+msgstr ""
+
+#. translators: %s: Link to PMPro discount codes admin page
+#: classes/class-pmprompmt-migration-step-other.php:82
+#, php-format
+msgid "Recreate discount codes at %s. PMPro supports percentage and fixed discounts, expiration dates, and usage limits."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:83
+msgid "Memberships > Discount Codes"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:88
+msgid "Tax/VAT Settings:"
+msgstr ""
+
+#. translators: %s: Link to VAT Tax Add On
+#: classes/class-pmprompmt-migration-step-other.php:92
+#, php-format
+msgid "Use the %s for EU VAT compliance, or configure tax rates in your payment gateway settings."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:93
+msgid "VAT Tax Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:98
+msgid "Anti-Fraud/Card Testing Protection:"
+msgstr ""
+
+#. translators: %s: Link to PMPro advanced settings admin page
+#: classes/class-pmprompmt-migration-step-other.php:102
+#, php-format
+msgid "PMPro includes built-in reCAPTCHA support. Configure at %s. For additional protection, use your payment gateway's fraud tools."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:103
+msgid "Memberships > Settings > Advanced"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:108
+msgid "Design/Branding Settings:"
+msgstr ""
+
+#. translators: %s: Link to Member Homepages Add On
+#: classes/class-pmprompmt-migration-step-other.php:112
+#, php-format
+msgid "PMPro styling integrates with your theme. Configure at %s or via CSS."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:113
+msgid "Settings > Design"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:118
+msgid "Corporate/Group Memberships:"
+msgstr ""
+
+#. translators: %s: Link to Group Accounts Add On
+#: classes/class-pmprompmt-migration-step-other.php:122
+#, php-format
+msgid "Use the %s to enable group/corporate membership functionality."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:123
+msgid "Group Accounts Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:128
+msgid "Gift Memberships:"
+msgstr ""
+
+#. translators: %s: Link to Gift Membership Add On
+#: classes/class-pmprompmt-migration-step-other.php:132
+#, php-format
+msgid "Use the %s to enable gifting functionality."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:133
+msgid "Gift Membership Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:138
+msgid "Courses:"
+msgstr ""
+
+#. translators: %s: Link to Courses for Membership Add On
+#: classes/class-pmprompmt-migration-step-other.php:142
+#, php-format
+msgid "Use the %s or integrate with LearnDash, LifterLMS, or Sensei for course content."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:143
+msgid "Courses for Membership Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:148
+msgid "Reminder/Automation Emails:"
+msgstr ""
+
+#. translators: %s: Link to Extra Expiration Warning Emails Add On
+#: classes/class-pmprompmt-migration-step-other.php:152
+#, php-format
+msgid "Use the %s for expiration reminders."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:153
+msgid "Extra Expiration Warning Emails Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:158
+msgid "Two-Factor Authentication:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:159
+msgid "Use a dedicated WordPress 2FA plugin such as Wordfence, WP 2FA, or Two-Factor."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:162
+msgid "Social Login:"
+msgstr ""
+
+#. translators: %s: Link to Social Login Add On
+#: classes/class-pmprompmt-migration-step-other.php:166
+#, php-format
+msgid "Use the %s for social authentication."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:167
+msgid "Social Login Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:173
+msgid "Third-Party Integrations (Not Migrated)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:174
+msgid "If you were using MemberPress integrations with third-party plugins, you will need to set up the equivalent PMPro Add Ons:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:177
+msgid "BuddyPress/BuddyBoss:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:178
+msgid "BuddyPress and BuddyBoss Integration Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:181
+msgid "bbPress:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:182
+msgid "bbPress Integration Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:185
+msgid "Zapier/Automations:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:186
+msgid "Zapier Integration Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:189
+msgid "WooCommerce:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:190
+msgid "WooCommerce Integration Add On"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:193
+msgid "Email Marketing:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:194
+msgid "Multiple Add Ons available for"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:195
+msgid "Mailchimp"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:196
+msgid "Kit (ConvertKit)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:197
+msgid "AWeber"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:198
+msgid "and more."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:221
+msgid "Membership Account"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:222
+msgid "Membership Billing"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:223
+msgid "Membership Cancel"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:224
+msgid "Membership Checkout"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:225
+msgid "Membership Confirmation"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:226
+msgid "Membership Orders"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:227
+msgid "Membership Levels"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:228
+msgid "Log In"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:229
+msgid "Your Profile"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-other.php:254
+msgid "More Information"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:18
+msgid "Migrate Users"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:71
+msgid "Warning: Existing membership user data has been detected in Paid Memberships Pro. Migrating user data from MemberPress may cause conflicts or duplicate memberships. Please ensure you have a backup of your database before proceeding."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:78
+msgid "MemberPress transactions converted to PMPro orders"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:79
+msgid "User membership assignments (based on migrated level mapping)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:80
+msgid "Membership start and end dates"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:81
+msgid "Stripe subscription data (optional, see checkbox below)"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:87
+msgid "Non-Stripe Payment Gateway Subscriptions:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:88
+msgid "PayPal, Authorize.net, and other gateway subscriptions cannot be automatically migrated. Memberships using these gateways will be assigned an expiration date and users will have to check out again to renew their membership. These payment subscriptions should be manually cancelled in your payment gateway."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:91
+msgid "Member Notes/Communication History:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:92
+msgid "Any notes attached to MemberPress members are not migrated. Export these separately if needed."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:96
+msgid "Important Notes"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:98
+msgid "The migration runs in the background using Action Scheduler. Large sites may take some time to complete."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:101
+msgid "Once you are ready, click the button below to queue up all users for migration from MemberPress to Paid Memberships Pro."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:117
+msgid "Migrate Stripe subscriptions to PMPro"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:123
+msgid "Migrate Stripe subscriptions to PMPro?"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:126
+msgid "Do not migrate Stripe subscriptions"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:140
+msgid "Please provide your Stripe API keys that are associated with the MemberPress Stripe gateway you are migrating from. These keys are necessary to manage subscriptions in Paid Memberships Pro."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:141
+msgid "With this setting enabled, customers with Stripe subscriptions will have their subscriptions migrated to Paid Memberships Pro. Customers with subscriptions managed by other gateways will be assigned a membership expiration date and will need to check out again to renew their membership."
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:146
+msgid "PMPro Gateway Environment:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:148
+msgid "Live/Production"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:149
+msgid "Sandbox/Testing"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:152
+msgid "Stripe Publishable Key:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:155
+msgid "Stripe Secret Key:"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step-users.php:176
+msgid "Queue User Migrations"
+msgstr ""
+
+#: classes/class-pmprompmt-migration-step.php:52
+msgid "Nonce verification failed. Please try again."
+msgstr ""
+
+#: pmpro-memberpress-migration-toolkit.php:81
+msgid "MemberPress Migration Toolkit"
+msgstr ""
+
+#: pmpro-memberpress-migration-toolkit.php:82
+msgid "This toolkit provides scripts and tools to help you migrate your membership data from MemberPress to Paid Memberships Pro."
+msgstr ""
+
+#: pmpro-memberpress-migration-toolkit.php:83
+#, php-format
+msgid "Please follow the steps outlined in our %s to ensure a smooth transition."
+msgstr ""
+
+#: pmpro-memberpress-migration-toolkit.php:83
+msgid "migration guide"
+msgstr ""
