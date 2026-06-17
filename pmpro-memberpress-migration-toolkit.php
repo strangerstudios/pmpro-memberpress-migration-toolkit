@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - MemberPress Migration Toolkit Add On
 Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-memberpress-migration-toolkit-add-on/
 Description: Tools to help you migrate your membership site data from MemberPress to Paid Memberships Pro.
-Version: 0.1
+Version: 0.1.1
 Author: Paid Memberships Pro
 Author URI: https://www.paidmembershipspro.com
 Text Domain: pmpro-memberpress-migration-toolkit
@@ -13,7 +13,7 @@ Domain Path: /languages
 /**
  * Add a new admin page under the "Memberships" menu for the migration toolkit.
  *
- * @since TBD
+ * @since 0.1.1
  */
 function pmprompmt_menu() {
 	// Bail if Paid Memberships Pro is not active.
@@ -35,7 +35,7 @@ add_action( 'admin_menu', 'pmprompmt_menu' );
 /**
  * Map MemberPress period types to PMPro cycle periods.
  *
- * @since TBD
+ * @since 0.1.1
  *
  * @param string $mepr_period_type MemberPress period type.
  * @return string PMPro cycle period.
@@ -58,7 +58,7 @@ function pmprompmt_convert_period( $mepr_period_type ) {
 /**
  * Display the content of the MemberPress Migration Toolkit admin page.
  *
- * @since TBD
+ * @since 0.1.1
  */
 function pmprompmt_page() {
 	include_once( dirname( __FILE__ ) . '/classes/class-pmprompmt-migration-step.php' );
