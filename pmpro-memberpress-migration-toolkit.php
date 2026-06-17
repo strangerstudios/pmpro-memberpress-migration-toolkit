@@ -2,7 +2,7 @@
 /*
 Plugin Name: Paid Memberships Pro - MemberPress Migration Toolkit Add On
 Plugin URI: https://www.paidmembershipspro.com/add-ons/pmpro-memberpress-migration-toolkit-add-on/
-Description: Quickly search Paid Memberships Pro admin pages for members, orders, subscriptions, and more.
+Description: Tools to help you migrate your membership site data from MemberPress to Paid Memberships Pro.
 Version: 0.1
 Author: Paid Memberships Pro
 Author URI: https://www.paidmembershipspro.com
@@ -95,8 +95,11 @@ function pmprompmt_page() {
 
 /**
  * Action Scheduler function to queue up all users for migration from MemberPress to PMPro.
+ *
+ * Users are queued in batches so that a single run of this task stays short. If there
+ * may be more users to queue, this task re-queues itself with an updated offset.
  */
-function pmprompmt_queue_user_migrations( $migrate_stripe_gateway_id = false ) {
+function pmprompmt_queue_user_migrations( $migrate_stripe_gateway_id = false, $offset = 0 ) {
 	global $wpdb;
 
 	// Bail if Paid Memberships Pro is not active, such as if it was deactivated mid-migration.
@@ -104,28 +107,48 @@ function pmprompmt_queue_user_migrations( $migrate_stripe_gateway_id = false ) {
 		return;
 	}
 
-	// Get an array of all user IDs.
-	$user_ids = $wpdb->get_col( "SELECT ID FROM $wpdb->users" );
+	$batch_size = 250;
+	$offset = intval( $offset );
 
-	if ( count( $user_ids ) > 250 ) {
-			PMPro_Action_Scheduler::instance()->halt();
-		}
-
-	foreach ( $user_ids as $user_id ) {
-		PMPro_Action_Scheduler::instance()->maybe_add_task(
-			'pmprompmt_migrate_user',
-			array(
-				'user_id' => $user_id,
-				'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
-			),
-			'pmpro_async_tasks'
-		);
+	// Get the next batch of user IDs.
+	$user_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->users ORDER BY ID ASC LIMIT %d OFFSET %d", $batch_size, $offset ) );
+	if ( empty( $user_ids ) ) {
+		return;
 	}
 
-	// If we paused the Action Scheduler, unpause it now.
-	PMPro_Action_Scheduler::instance()->resume();
+	// Pause the Action Scheduler while we queue tasks.
+	PMPro_Action_Scheduler::instance()->halt();
+
+	try {
+		foreach ( $user_ids as $user_id ) {
+			PMPro_Action_Scheduler::instance()->maybe_add_task(
+				'pmprompmt_migrate_user',
+				array(
+					'user_id' => $user_id,
+					'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
+				),
+				'pmpro_async_tasks'
+			);
+		}
+
+		// If this batch was full, there may be more users to queue.
+		if ( count( $user_ids ) === $batch_size ) {
+			PMPro_Action_Scheduler::instance()->maybe_add_task(
+				'pmprompmt_queue_user_migrations',
+				array(
+					'migrate_stripe_gateway_id' => $migrate_stripe_gateway_id,
+					'offset' => $offset + $batch_size,
+				),
+				'pmpro_async_tasks'
+			);
+		}
+	} finally {
+		// Always unpause the Action Scheduler, even if queuing throws, so a failure
+		// here doesn't leave all PMPro Action Scheduler tasks halted site-wide.
+		PMPro_Action_Scheduler::instance()->resume();
+	}
 }
-add_action( 'pmprompmt_queue_user_migrations', 'pmprompmt_queue_user_migrations', 10, 1 );
+add_action( 'pmprompmt_queue_user_migrations', 'pmprompmt_queue_user_migrations', 10, 2 );
 
 /**
  * Action Scheduler function to migrate a single MemberPress member to PMPro.
@@ -155,63 +178,92 @@ function pmprompmt_migrate_user( $user_id, $migrate_stripe_gateway_id = false ) 
 		$levels_to_add = array(); // level_id => associative array with level data.
 		
 		foreach ( $mp_transactions as $transaction ) {
-			// Create a PMPro order for this transaction.
-			$order = new MemberOrder();
-			$order->user_id = $transaction->user_id;
-			$order->membership_id = ! empty( $level_map[ $transaction->product_id ] ) ? $level_map[ $transaction->product_id ] : 0;
-			$order->payment_transaction_id = $transaction->trans_num;
-			$order->timestamp = strtotime( $transaction->created_at );
-			$order->total = $transaction->total;
-			$order->subtotal = $transaction->amount;
-			$order->tax = $transaction->tax_amount;
-			$order->notes = 'Migrated from MemberPress Transaction ID ' . $transaction->id;
-			switch ( $transaction->status ) {
-				case 'complete':
-				case 'confirmed':
-					$order->status = 'success';
-					break;
-				case 'failed':
-					$order->status = 'error';
-					break;
-				default:
-					$order->status = $transaction->status;
-					break;
-			}
-			if (
+			// Check whether this transaction is being migrated to the PMPro Stripe gateway
+			// and whether it is part of an active Stripe subscription.
+			$migrating_to_stripe = (
 				! empty( $migrate_stripe_gateway_id ) &&
 				$transaction->gateway == $migrate_stripe_gateway_id &&
 				in_array( $transaction->status, array( 'complete', 'confirmed' ), true )
-			) {
-				// This transaction was made via Stripe and we are migrating Stripe API keys.
-				$order->gateway = 'stripe';
+			);
+			$stripe_subscription_id = '';
+			if ( $migrating_to_stripe && ! empty( $transaction->subscription_id ) ) {
+				// Get the subscription transaction ID for this transaction.
+				$subscription_id = $wpdb->get_var( $wpdb->prepare( "SELECT subscr_id FROM {$wpdb->prefix}mepr_subscriptions WHERE id = %d AND status = 'active' LIMIT 1", $transaction->subscription_id ) );
+				if ( ! empty( $subscription_id ) ) {
+					$stripe_subscription_id = $subscription_id;
 
-				// Check if this transaction is part of a subscription.
-				if ( ! empty( $transaction->subscription_id ) ) {
-					// Get the subscription transaction ID for this transaction.
-					$subscription_id = $wpdb->get_var( $wpdb->prepare( "SELECT subscr_id FROM {$wpdb->prefix}mepr_subscriptions WHERE id = %d AND status = 'active' LIMIT 1", $transaction->subscription_id ) );
-					if ( ! empty( $subscription_id ) ) {
-						$order->gateway = 'stripe';
-						$order->subscription_transaction_id = $subscription_id;
-
-						// Let's also remove the `expires_at` to avoid PMPro auto-expiring the membership.
-						$transaction->expires_at = null;
-					}
+					// Let's also remove the `expires_at` to avoid PMPro auto-expiring the membership.
+					$transaction->expires_at = null;
 				}
 			}
-			$order->saveOrder();
+
+			// 'confirmed' transactions are MemberPress subscription confirmation records rather
+			// than real payments, so creating $0 orders for them would inflate order counts in
+			// reports. Only create an order for one if it is needed to link a migrated Stripe
+			// subscription that has no completed payments yet.
+			$create_order = 'confirmed' !== $transaction->status || ! empty( $stripe_subscription_id );
+
+			if ( $create_order ) {
+				// Create a PMPro order for this transaction.
+				$order = new MemberOrder();
+
+				// Don't let migrated orders inherit the site's current gateway. These transactions
+				// were not processed by a PMPro gateway, and PMPro handles orders with no gateway
+				// gracefully. We intentionally leave gateway_environment as set by the order
+				// constructor (the site's current environment) so these orders still appear in
+				// environment-filtered reports such as the Sales report. Transactions being
+				// migrated to the PMPro Stripe gateway set the gateway below.
+				$order->gateway = '';
+
+				$order->user_id = $transaction->user_id;
+				$order->membership_id = ! empty( $level_map[ $transaction->product_id ] ) ? $level_map[ $transaction->product_id ] : 0;
+				$order->payment_transaction_id = $transaction->trans_num;
+				$order->timestamp = strtotime( $transaction->created_at );
+				$order->total = $transaction->total;
+				$order->subtotal = $transaction->amount;
+				$order->tax = $transaction->tax_amount;
+				$order->notes = 'Migrated from MemberPress Transaction ID ' . $transaction->id;
+				switch ( $transaction->status ) {
+					case 'complete':
+					case 'confirmed':
+						$order->status = 'success';
+						break;
+					case 'failed':
+						$order->status = 'error';
+						break;
+					default:
+						$order->status = $transaction->status;
+						break;
+				}
+				if ( $migrating_to_stripe ) {
+					// This transaction was made via Stripe and we are migrating Stripe API keys.
+					// gateway_environment is already set from the site option by the order constructor.
+					$order->gateway = 'stripe';
+					if ( ! empty( $stripe_subscription_id ) ) {
+						$order->subscription_transaction_id = $stripe_subscription_id;
+					}
+				}
+				$order->saveOrder();
+			}
 
 			// Maybe add this level to the user.
 			if ( ! empty( $level_map[ $transaction->product_id ] ) && in_array( $transaction->status, array( 'complete', 'confirmed' ), true ) ) {
 				$pmpro_level_id = $level_map[ $transaction->product_id ];
+
+				// Normalize the expiration date. MemberPress stores '0000-00-00 00:00:00' in
+				// expires_at for lifetime transactions, which means "no expiration".
+				$expires_at = ( empty( $transaction->expires_at ) || '0000-00-00 00:00:00' === $transaction->expires_at ) ? '' : $transaction->expires_at;
+
 				if ( empty( $levels_to_add[ $pmpro_level_id ] ) ) {
 					$levels_to_add[ $pmpro_level_id ] = array(
 						'startdate' => $transaction->created_at,
-						'enddate'   => $transaction->expires_at,
+						'enddate'   => $expires_at,
 					);
 				} else {
 					// If we already have this level, check if this transaction has a later expiration date.
-					if ( empty( $transaction->expires_at ) || strtotime( $transaction->expires_at ) > strtotime( $levels_to_add[ $pmpro_level_id ]['enddate'] ) ) {
-						$levels_to_add[ $pmpro_level_id ]['enddate'] = $transaction->expires_at;
+					// An empty expiration date means a lifetime membership, which always wins.
+					if ( ! empty( $levels_to_add[ $pmpro_level_id ]['enddate'] ) && ( empty( $expires_at ) || strtotime( $expires_at ) > strtotime( $levels_to_add[ $pmpro_level_id ]['enddate'] ) ) ) {
+						$levels_to_add[ $pmpro_level_id ]['enddate'] = $expires_at;
 					}
 					// If this transaction has an earlier start date, update it.
 					if ( empty( $levels_to_add[ $pmpro_level_id ]['startdate'] ) || strtotime( $transaction->created_at ) < strtotime( $levels_to_add[ $pmpro_level_id ]['startdate'] ) ) {
@@ -235,7 +287,7 @@ function pmprompmt_migrate_user( $user_id, $migrate_stripe_gateway_id = false ) 
 				'trial_amount'    => 0,
 				'trial_limit'     => 0,
 				'startdate'       => $level_data['startdate'],
-				'enddate'         => $level_data['enddate']
+				'enddate'         => empty( $level_data['enddate'] ) ? '0000-00-00 00:00:00' : $level_data['enddate']
 			);
 			pmpro_changeMembershipLevel( $custom_level, $user_id );
 		}
@@ -308,16 +360,14 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 		case 'single_page':
 		case 'single_post':
 			// Get the current PMPro restriction for this post/page.
+			// Use INSERT IGNORE since the restriction may already exist, such as if multiple
+			// MemberPress rules cover the same post or this rule is migrated again.
 			foreach( $pmpro_level_ids as $pmpro_level_id ) {
-				$wpdb->insert(
-					$wpdb->prefix . 'pmpro_memberships_pages',
-					array(
-						'page_id'        => intval( $rule_content ),
-						'membership_id' => intval( $pmpro_level_id ),
-					),
-					array(
-						'%d',
-						'%d',
+				$wpdb->query(
+					$wpdb->prepare(
+						"INSERT IGNORE INTO {$wpdb->prefix}pmpro_memberships_pages (page_id, membership_id) VALUES (%d, %d)",
+						intval( $rule_content ),
+						intval( $pmpro_level_id )
 					)
 				);
 			}
@@ -347,13 +397,13 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 			}
 
 			// Make sure that no PMPro pages are restricted.
-			$wpdb->query(
-				$wpdb->prepare(
+			$pmpro_page_ids = array_filter( array_map( 'intval', (array) $pmpro_pages ) );
+			if ( ! empty( $pmpro_page_ids ) ) {
+				$wpdb->query(
 					"DELETE FROM {$wpdb->prefix}pmpro_memberships_pages
-					WHERE page_id IN (%s)",
-					implode( ',', array_map( 'intval', $pmpro_pages ) )
-				)
-			);
+					WHERE page_id IN (" . implode( ',', $pmpro_page_ids ) . ')'
+				);
+			}
 			break;
 		case 'all':
 			// Run a single query to update all posts and pages.
@@ -368,29 +418,55 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 			}
 
 			// Make sure that no PMPro pages are restricted.
-			$wpdb->query(
-				$wpdb->prepare(
+			$pmpro_page_ids = array_filter( array_map( 'intval', (array) $pmpro_pages ) );
+			if ( ! empty( $pmpro_page_ids ) ) {
+				$wpdb->query(
 					"DELETE FROM {$wpdb->prefix}pmpro_memberships_pages
-					WHERE page_id IN (%s)",
-					implode( ',', array_map( 'intval', $pmpro_pages ) )
-				)
-			);
+					WHERE page_id IN (" . implode( ',', $pmpro_page_ids ) . ')'
+				);
+			}
 			break;
 		case 'all_tax_category':
 		case 'all_tax_post_tag':
+			// These rules restrict all content that has any term in the taxonomy, so restrict every term in the taxonomy.
+			$taxonomy = 'all_tax_category' === $rule_type ? 'category' : 'post_tag';
+			$term_ids = get_terms(
+				array(
+					'taxonomy'   => $taxonomy,
+					'hide_empty' => false,
+					'fields'     => 'ids',
+				)
+			);
+			if ( is_wp_error( $term_ids ) ) {
+				break;
+			}
+			foreach ( $term_ids as $term_id ) {
+				foreach( $pmpro_level_ids as $pmpro_level_id ) {
+					$wpdb->query(
+						$wpdb->prepare(
+							"INSERT IGNORE INTO {$wpdb->prefix}pmpro_memberships_categories (membership_id, category_id) VALUES (%d, %d)",
+							intval( $pmpro_level_id ),
+							intval( $term_id )
+						)
+					);
+				}
+			}
+			break;
 		case 'category':
 		case 'tag':
 			// For taxonomy restrictions, we're going to instead update the pmpro_memberships_categories table.
+			// MemberPress stores the term slug in the rule content for these rule types.
+			$taxonomy = 'category' === $rule_type ? 'category' : 'post_tag';
+			$term = get_term_by( 'slug', $rule_content, $taxonomy );
+			if ( empty( $term ) || is_wp_error( $term ) ) {
+				break;
+			}
 			foreach( $pmpro_level_ids as $pmpro_level_id ) {
-				$wpdb->insert(
-					$wpdb->prefix . 'pmpro_memberships_categories',
-					array(
-						'membership_id' => intval( $pmpro_level_id ),
-						'category_id'   => intval( $rule_content ),
-					),
-					array(
-						'%d',
-						'%d',
+				$wpdb->query(
+					$wpdb->prepare(
+						"INSERT IGNORE INTO {$wpdb->prefix}pmpro_memberships_categories (membership_id, category_id) VALUES (%d, %d)",
+						intval( $pmpro_level_id ),
+						intval( $term->term_id )
 					)
 				);
 			}
@@ -401,15 +477,11 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 			if ( ! empty( $child_pages ) ) {
 				foreach ( $child_pages as $child_page ) {
 					foreach( $pmpro_level_ids as $pmpro_level_id ) {
-						$wpdb->insert(
-							$wpdb->prefix . 'pmpro_memberships_pages',
-							array(
-								'page_id'        => intval( $child_page->ID ),
-								'membership_id' => intval( $pmpro_level_id ),
-							),
-							array(
-								'%d',
-								'%d',
+						$wpdb->query(
+							$wpdb->prepare(
+								"INSERT IGNORE INTO {$wpdb->prefix}pmpro_memberships_pages (page_id, membership_id) VALUES (%d, %d)",
+								intval( $child_page->ID ),
+								intval( $pmpro_level_id )
 							)
 						);
 					}
