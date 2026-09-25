@@ -176,6 +176,7 @@ class PMProMPMT_Migration_Step_Levels extends PMProMPMT_Migration_Step {
 	 * Process the step.
 	 */
 	static public function process_step() {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- PMProMPMT_Migration_Step::maybe_process_step() verifies the nonce before calling process_step(); the page requires manage_options.
 		// Check the level step action.
 		if ( ! isset( $_POST['level-step-action'] ) ) {
 			return;
@@ -293,6 +294,7 @@ class PMProMPMT_Migration_Step_Levels extends PMProMPMT_Migration_Step {
 			// Save the manually submitted level mapping.
 			$new_level_map = array();
 			if ( ! empty( $_REQUEST['pmpro_mp_level_map'] ) && is_array( $_REQUEST['pmpro_mp_level_map'] ) ) {
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash, WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Each key and value is passed through intval() below.
 				foreach ( $_REQUEST['pmpro_mp_level_map'] as $mp_level_id => $pmpro_level_id ) {
 					$mp_level_id = intval( $mp_level_id );
 					$pmpro_level_id = intval( $pmpro_level_id );
@@ -303,5 +305,6 @@ class PMProMPMT_Migration_Step_Levels extends PMProMPMT_Migration_Step {
 			}
 			update_option( 'pmprompmt_level_map', $new_level_map );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended
 	}
 }

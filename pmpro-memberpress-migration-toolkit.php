@@ -10,6 +10,10 @@ Text Domain: pmpro-memberpress-migration-toolkit
 Domain Path: /languages
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Add a new admin page under the "Memberships" menu for the migration toolkit.
  *
@@ -111,6 +115,7 @@ function pmprompmt_queue_user_migrations( $migrate_stripe_gateway_id = false, $o
 	$offset = intval( $offset );
 
 	// Get the next batch of user IDs.
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time migration batch read; query is prepared.
 	$user_ids = $wpdb->get_col( $wpdb->prepare( "SELECT ID FROM $wpdb->users ORDER BY ID ASC LIMIT %d OFFSET %d", $batch_size, $offset ) );
 	if ( empty( $user_ids ) ) {
 		return;
@@ -172,6 +177,7 @@ function pmprompmt_migrate_user( $user_id, $migrate_stripe_gateway_id = false ) 
 	// 1. Migrate every transaction to a PMPro order,
 	// 2. Keep a record of any level IDs and expiration dates that the user needs to be given memberships for.
 	$table_name = $wpdb->prefix . 'mepr_transactions';
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table_name is $wpdb->prefix plus a literal; query is prepared.
 	$mp_transactions = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM $table_name WHERE user_id = %d ORDER BY created_at ASC", $user_id ) );
 	if ( ! empty( $mp_transactions ) ) {
 		$level_map = get_option( 'pmprompmt_level_map', array() );
@@ -188,6 +194,7 @@ function pmprompmt_migrate_user( $user_id, $migrate_stripe_gateway_id = false ) 
 			$stripe_subscription_id = '';
 			if ( $migrating_to_stripe && ! empty( $transaction->subscription_id ) ) {
 				// Get the subscription transaction ID for this transaction.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time migration read from the MemberPress custom table; query is prepared.
 				$subscription_id = $wpdb->get_var( $wpdb->prepare( "SELECT subscr_id FROM {$wpdb->prefix}mepr_subscriptions WHERE id = %d AND status = 'active' LIMIT 1", $transaction->subscription_id ) );
 				if ( ! empty( $subscription_id ) ) {
 					$stripe_subscription_id = $subscription_id;
@@ -282,6 +289,7 @@ function pmprompmt_migrate_user( $user_id, $migrate_stripe_gateway_id = false ) 
 				// Insert the membership history record with status 'expired' directly. If we
 				// inserted it as 'active', PMPro's expiration cron would expire it on the next
 				// run and send a "Membership Expired" email to every old member at once.
+				// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery -- Insert into PMPro custom table with format placeholders.
 				$wpdb->insert(
 					$wpdb->pmpro_memberships_users,
 					array(
@@ -338,6 +346,7 @@ function pmprompmt_queue_content_restriction_migrations() {
 	// Since we can only migrate membership-based content restrictions, let's build our list of rules to migrate by querying mepr_rule_access_conditions
 	// for all unique rule IDs where access_type is 'membership'.
 	$table_name = $wpdb->prefix . 'mepr_rule_access_conditions';
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table_name is $wpdb->prefix plus a literal; static query on the MemberPress custom table.
 	$rule_ids = $wpdb->get_col( "SELECT DISTINCT rule_id FROM $table_name WHERE access_type = 'membership'" );
 
 	foreach ( $rule_ids as $rule_id ) {
@@ -364,6 +373,7 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 		return;
 	}
 	$table_name = $wpdb->prefix . 'mepr_rule_access_conditions';
+	// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching, WordPress.DB.PreparedSQL.InterpolatedNotPrepared, PluginCheck.Security.DirectDB.UnescapedDBParameter -- $table_name is $wpdb->prefix plus a literal; query is prepared.
 	$mp_product_ids = $wpdb->get_col( $wpdb->prepare( "SELECT access_condition FROM $table_name WHERE rule_id = %d AND access_type = 'membership'", $rule_id ) );
 	if ( empty( $mp_product_ids ) ) {
 		return;
@@ -385,6 +395,7 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 	$rule_type = get_post_meta( $rule_id, '_mepr_rules_type', true );
 	$rule_content = get_post_meta( $rule_id, '_mepr_rules_content', true );
 
+	// phpcs:disable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- One-time migration writes to PMPro custom tables; caching does not apply.
 	switch( $rule_type ) {
 		case 'single_page':
 		case 'single_post':
@@ -430,7 +441,7 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 			if ( ! empty( $pmpro_page_ids ) ) {
 				$wpdb->query(
 					"DELETE FROM {$wpdb->prefix}pmpro_memberships_pages
-					WHERE page_id IN (" . implode( ',', $pmpro_page_ids ) . ')'
+					WHERE page_id IN (" . implode( ',', $pmpro_page_ids ) . ')' // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $pmpro_page_ids is an array of intval()'d IDs.
 				);
 			}
 			break;
@@ -451,7 +462,7 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 			if ( ! empty( $pmpro_page_ids ) ) {
 				$wpdb->query(
 					"DELETE FROM {$wpdb->prefix}pmpro_memberships_pages
-					WHERE page_id IN (" . implode( ',', $pmpro_page_ids ) . ')'
+					WHERE page_id IN (" . implode( ',', $pmpro_page_ids ) . ')' // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $pmpro_page_ids is an array of intval()'d IDs.
 				);
 			}
 			break;
@@ -527,5 +538,6 @@ function pmprompmt_migrate_content_restriction( $rule_id ) {
 		default:
 			break;
 	}
+	// phpcs:enable WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 }
 add_action( 'pmprompmt_migrate_content_restriction', 'pmprompmt_migrate_content_restriction', 10, 1 );

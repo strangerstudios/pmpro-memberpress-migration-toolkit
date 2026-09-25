@@ -41,6 +41,7 @@ class PMProMPMT_Migration_Step_Users extends PMProMPMT_Migration_Step {
 
 		// Check if there are any membership records. If there are, we assume users have been migrated.
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Status check on a PMPro custom table; static query.
 		$pmpro_has_membership_data = ! empty( $wpdb->get_var( "SELECT COUNT(id) FROM $wpdb->pmpro_memberships_users LIMIT 1" ) );
 		if ( $pmpro_has_membership_data ) {
 			return 'completed';
@@ -64,6 +65,7 @@ class PMProMPMT_Migration_Step_Users extends PMProMPMT_Migration_Step {
 	static public function display_step_body() {
 		// Check if there is existing membership user data in PMPro.
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Status check on a PMPro custom table; static query.
 		$pmpro_has_membership_data = ! empty( $wpdb->get_var( "SELECT COUNT(id) FROM $wpdb->pmpro_memberships_users LIMIT 1" ) );
 		if ( $pmpro_has_membership_data ) {
 			// Show a warning that existing membership user data exists and migrating may cause issues.
@@ -182,6 +184,7 @@ class PMProMPMT_Migration_Step_Users extends PMProMPMT_Migration_Step {
 	 */
 	static public function process_step() {
 		// Check if we need to migrate Stripe API keys.
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended -- PMProMPMT_Migration_Step::maybe_process_step() verifies the nonce before calling process_step(); the page requires manage_options.
 		$migrate_stripe_gateway_id = empty( $_REQUEST['pmprompmt_migrate_stripe_gateway_id'] ) ? false : sanitize_text_field( wp_unslash( $_REQUEST['pmprompmt_migrate_stripe_gateway_id'] ) );
 		if ( ! empty( $migrate_stripe_gateway_id ) ) {
 			// Update gateway environment and Stripe API keys.
@@ -189,6 +192,7 @@ class PMProMPMT_Migration_Step_Users extends PMProMPMT_Migration_Step {
 			update_option( 'pmpro_gateway_environment', isset( $_REQUEST['pmpro_gateway_environment'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['pmpro_gateway_environment'] ) ) : 'live' );
 			update_option( 'pmpro_stripe_publishablekey', isset( $_REQUEST['pmpro_stripe_publishablekey'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['pmpro_stripe_publishablekey'] ) ) : '' );
 			update_option( 'pmpro_stripe_secretkey', isset( $_REQUEST['pmpro_stripe_secretkey'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['pmpro_stripe_secretkey'] ) ) : '' );
+			// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 			// Set up webhook events as well.
 			$stripe = new PMProGateway_stripe();
