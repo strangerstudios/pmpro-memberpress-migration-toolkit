@@ -292,8 +292,8 @@ class PMProMPMT_Migration_Step_Levels extends PMProMPMT_Migration_Step {
 		} elseif ( 'save_level_map' === sanitize_text_field( wp_unslash( $_POST['level-step-action'] ) ) ) {
 			// Save the manually submitted level mapping.
 			$new_level_map = array();
-			if ( ! empty( $_REQUEST['pmpro_mp_level_map'] ) && is_array( $_REQUEST['pmpro_mp_level_map'] ) ) {
-				foreach ( $_REQUEST['pmpro_mp_level_map'] as $mp_level_id => $pmpro_level_id ) {
+			if ( ! empty( $_POST['pmpro_mp_level_map'] ) && is_array( $_POST['pmpro_mp_level_map'] ) ) {
+				foreach ( $_POST['pmpro_mp_level_map'] as $mp_level_id => $pmpro_level_id ) {
 					$mp_level_id = intval( $mp_level_id );
 					$pmpro_level_id = intval( $pmpro_level_id );
 					if ( $mp_level_id > 0 && $pmpro_level_id > 0 ) {
