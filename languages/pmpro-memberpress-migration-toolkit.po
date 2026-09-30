@@ -2,14 +2,14 @@
 # This file is distributed under the same license as the Paid Memberships Pro - MemberPress Migration Toolkit Add On plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: Paid Memberships Pro - MemberPress Migration Toolkit Add On 0.1.1\n"
+"Project-Id-Version: Paid Memberships Pro - MemberPress Migration Toolkit Add On 0.1.2\n"
 "Report-Msgid-Bugs-To: info@paidmembershipspro.com\n"
 "Last-Translator: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "Language-Team: Paid Memberships Pro <info@paidmembershipspro.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-06-17T16:54:58+00:00\n"
+"POT-Creation-Date: 2026-09-30T16:17:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: pmpro-memberpress-migration-toolkit\n"
@@ -47,22 +47,28 @@ msgstr ""
 #: classes/class-pmprompmt-migration-step-levels.php:75
 #: classes/class-pmprompmt-migration-step-other.php:45
 #: classes/class-pmprompmt-migration-step-users.php:76
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:67
+#: classes/class-pmprompmt-migration-step-users.php:78
 msgid "What Will Be Migrated"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:68
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:69
 msgid "Single post and page restrictions (membership-based)"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:69
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:70
 msgid "Category-based restrictions"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:70
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:71
 msgid "Parent page restrictions (including child pages)"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:71
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:72
 msgid "All posts/pages restriction rules"
 msgstr ""
 
@@ -70,109 +76,135 @@ msgstr ""
 #: classes/class-pmprompmt-migration-step-levels.php:84
 #: classes/class-pmprompmt-migration-step-other.php:65
 #: classes/class-pmprompmt-migration-step-users.php:84
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:75
+#: classes/class-pmprompmt-migration-step-users.php:86
 msgid "What Will NOT Be Migrated"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:77
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:78
 msgid "Custom Post Type Restrictions:"
 msgstr ""
 
 #. translators: %s: Link to Custom Post Type Membership Access Add On
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:81
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:82
 #, php-format
 msgid "Use the %s or specific PMPro integrations to restrict custom post types."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:82
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:83
 msgid "Custom Post Type Membership Access Add On"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:87
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:88
 msgid "Drip Content (Time-Based Content Release):"
 msgstr ""
 
 #. translators: %s: Link to Series Add On
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:91
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:92
 #, php-format
 msgid "Use the %s to recreate drip content schedules."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:92
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:93
 msgid "Series: Drip-Feed Content Add On"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:97
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:98
 msgid "Partial Content Restrictions Within a Post:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:98
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:99
 msgid "PMPro restricts entire posts by default. Use the [membership] shortcode or Content Visibility block to wrap restricted sections within a post for partial content protection."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:101
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:102
 msgid "Content Expiration Rules:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:102
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:103
 msgid "Time-limited content access based on membership start date is not migrated. Configure using custom code."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:105
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:106
 msgid "Role/Capability-Based Restrictions:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:106
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:107
 msgid "Role/capability-based restrictions are not migrated. Configure using custom code."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:109
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:110
 msgid "User-Specific Restrictions:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:110
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:111
 msgid "Individual user access rules must be set up manually or via custom code."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:113
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:114
 msgid "MemberPress Product Category Restrictions:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:114
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:115
 msgid "Product category rules are not migrated. Set up category restrictions in PMPro under Memberships > Settings > Advanced."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:117
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:118
 msgid "Level Group-Based Restrictions:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:118
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:119
 msgid "MemberPress group-based rules must be recreated using PMPro level assignments."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:121
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:122
 msgid "Paywall/Metered Content:"
 msgstr ""
 
 #. translators: %s: Link to Limit Post Views Add On
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:125
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:126
 #, php-format
 msgid "Use the %s for metered paywall functionality."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:126
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:127
 msgid "Limit Post Views Add On"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:132
 #: classes/class-pmprompmt-migration-step-levels.php:106
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:133
 msgid "After Migration"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:133
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:134
 msgid "Review your content restrictions by visiting protected pages and verifying access."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-content-restrictions.php:135
+#: classes/class-pmprompmt-migration-step-content-restrictions.php:136
 msgid "Queue Content Restriction Migrations"
 msgstr ""
 
@@ -467,6 +499,7 @@ msgid "Save Level Map"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-levels.php:188
+#: classes/class-pmprompmt-migration-step-levels.php:189
 msgid "Level migration has already been completed. To re-run the migration, please clear the existing level map first."
 msgstr ""
 
@@ -507,10 +540,12 @@ msgid "Activate License"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-license.php:78
+#: classes/class-pmprompmt-migration-step-license.php:80
 msgid "License key activated successfully."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-license.php:80
+#: classes/class-pmprompmt-migration-step-license.php:82
 msgid "Invalid license key. Please try again."
 msgstr ""
 
@@ -804,94 +839,117 @@ msgid "Migrate Users"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:71
+#: classes/class-pmprompmt-migration-step-users.php:73
 msgid "Warning: Existing membership user data has been detected in Paid Memberships Pro. Migrating user data from MemberPress may cause conflicts or duplicate memberships. Please ensure you have a backup of your database before proceeding."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:78
+#: classes/class-pmprompmt-migration-step-users.php:80
 msgid "MemberPress transactions converted to PMPro orders"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:79
+#: classes/class-pmprompmt-migration-step-users.php:81
 msgid "User membership assignments (based on migrated level mapping)"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:80
+#: classes/class-pmprompmt-migration-step-users.php:82
 msgid "Membership start and end dates"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:81
+#: classes/class-pmprompmt-migration-step-users.php:83
 msgid "Stripe subscription data (optional, see checkbox below)"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:87
+#: classes/class-pmprompmt-migration-step-users.php:89
 msgid "Non-Stripe Payment Gateway Subscriptions:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:88
+#: classes/class-pmprompmt-migration-step-users.php:90
 msgid "PayPal, Authorize.net, and other gateway subscriptions cannot be automatically migrated. Memberships using these gateways will be assigned an expiration date and users will have to check out again to renew their membership. These payment subscriptions should be manually cancelled in your payment gateway."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:91
+#: classes/class-pmprompmt-migration-step-users.php:93
 msgid "Member Notes/Communication History:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:92
+#: classes/class-pmprompmt-migration-step-users.php:94
 msgid "Any notes attached to MemberPress members are not migrated. Export these separately if needed."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:96
+#: classes/class-pmprompmt-migration-step-users.php:98
 msgid "Important Notes"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:98
+#: classes/class-pmprompmt-migration-step-users.php:100
 msgid "The migration runs in the background using Action Scheduler. Large sites may take some time to complete."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:101
+#: classes/class-pmprompmt-migration-step-users.php:103
 msgid "Once you are ready, click the button below to queue up all users for migration from MemberPress to Paid Memberships Pro."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:117
+#: classes/class-pmprompmt-migration-step-users.php:119
 msgid "Migrate Stripe subscriptions to PMPro"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:123
+#: classes/class-pmprompmt-migration-step-users.php:125
 msgid "Migrate Stripe subscriptions to PMPro?"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:126
+#: classes/class-pmprompmt-migration-step-users.php:128
 msgid "Do not migrate Stripe subscriptions"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:140
+#: classes/class-pmprompmt-migration-step-users.php:142
 msgid "Please provide your Stripe API keys that are associated with the MemberPress Stripe gateway you are migrating from. These keys are necessary to manage subscriptions in Paid Memberships Pro."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:141
+#: classes/class-pmprompmt-migration-step-users.php:143
 msgid "With this setting enabled, customers with Stripe subscriptions will have their subscriptions migrated to Paid Memberships Pro. Customers with subscriptions managed by other gateways will be assigned a membership expiration date and will need to check out again to renew their membership."
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:146
+#: classes/class-pmprompmt-migration-step-users.php:148
 msgid "PMPro Gateway Environment:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:148
+#: classes/class-pmprompmt-migration-step-users.php:150
 msgid "Live/Production"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:149
+#: classes/class-pmprompmt-migration-step-users.php:151
 msgid "Sandbox/Testing"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:152
+#: classes/class-pmprompmt-migration-step-users.php:154
 msgid "Stripe Publishable Key:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:155
+#: classes/class-pmprompmt-migration-step-users.php:157
 msgid "Stripe Secret Key:"
 msgstr ""
 
 #: classes/class-pmprompmt-migration-step-users.php:176
+#: classes/class-pmprompmt-migration-step-users.php:178
 msgid "Queue User Migrations"
 msgstr ""
 
@@ -900,18 +958,22 @@ msgid "Nonce verification failed. Please try again."
 msgstr ""
 
 #: pmpro-memberpress-migration-toolkit.php:81
+#: pmpro-memberpress-migration-toolkit.php:85
 msgid "MemberPress Migration Toolkit"
 msgstr ""
 
 #: pmpro-memberpress-migration-toolkit.php:82
+#: pmpro-memberpress-migration-toolkit.php:86
 msgid "This toolkit provides scripts and tools to help you migrate your membership data from MemberPress to Paid Memberships Pro."
 msgstr ""
 
 #: pmpro-memberpress-migration-toolkit.php:83
+#: pmpro-memberpress-migration-toolkit.php:87
 #, php-format
 msgid "Please follow the steps outlined in our %s to ensure a smooth transition."
 msgstr ""
 
 #: pmpro-memberpress-migration-toolkit.php:83
+#: pmpro-memberpress-migration-toolkit.php:87
 msgid "migration guide"
 msgstr ""
