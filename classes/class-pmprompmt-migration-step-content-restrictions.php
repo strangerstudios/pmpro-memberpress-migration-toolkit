@@ -41,6 +41,7 @@ class PMProMPMT_Migration_Step_Content_Restrictions extends PMProMPMT_Migration_
 
 		// Check if there are any content restrictions. If there are, we assume content restrictions have been migrated.
 		global $wpdb;
+		// phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching -- Status check on a PMPro custom table; static query.
 		$pmpro_has_content_restrictions = ! empty( $wpdb->get_var( "SELECT COUNT(*) FROM $wpdb->pmpro_memberships_pages LIMIT 1" ) );
 		if ( $pmpro_has_content_restrictions ) {
 			return 'completed';

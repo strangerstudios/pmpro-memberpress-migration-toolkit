@@ -62,10 +62,12 @@ class PMProMPMT_Migration_Step_License extends PMProMPMT_Migration_Step {
 	 */
 	static public function process_step() {
 		// Get the license key from the form submission.
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- PMProMPMT_Migration_Step::maybe_process_step() verifies the nonce before calling process_step(); the page requires manage_options.
 		$license_key = '';
 		if ( isset( $_POST['pmprompmt_license_key'] ) ) {
 			$license_key = sanitize_text_field( wp_unslash( $_POST['pmprompmt_license_key'] ) );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		// Update the license key option.
 		update_option( 'pmpro_license_key', $license_key );
