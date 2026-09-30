@@ -185,13 +185,13 @@ class PMProMPMT_Migration_Step_Users extends PMProMPMT_Migration_Step {
 	static public function process_step() {
 		// Check if we need to migrate Stripe API keys.
 		// phpcs:disable WordPress.Security.NonceVerification.Missing, WordPress.Security.NonceVerification.Recommended -- PMProMPMT_Migration_Step::maybe_process_step() verifies the nonce before calling process_step(); the page requires manage_options.
-		$migrate_stripe_gateway_id = empty( $_REQUEST['pmprompmt_migrate_stripe_gateway_id'] ) ? false : sanitize_text_field( wp_unslash( $_REQUEST['pmprompmt_migrate_stripe_gateway_id'] ) );
+		$migrate_stripe_gateway_id = empty( $_POST['pmprompmt_migrate_stripe_gateway_id'] ) ? false : sanitize_text_field( wp_unslash( $_POST['pmprompmt_migrate_stripe_gateway_id'] ) );
 		if ( ! empty( $migrate_stripe_gateway_id ) ) {
 			// Update gateway environment and Stripe API keys.
 			update_option( 'pmpro_gateway', 'stripe' );
-			update_option( 'pmpro_gateway_environment', isset( $_REQUEST['pmpro_gateway_environment'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['pmpro_gateway_environment'] ) ) : 'live' );
-			update_option( 'pmpro_stripe_publishablekey', isset( $_REQUEST['pmpro_stripe_publishablekey'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['pmpro_stripe_publishablekey'] ) ) : '' );
-			update_option( 'pmpro_stripe_secretkey', isset( $_REQUEST['pmpro_stripe_secretkey'] ) ? sanitize_text_field( wp_unslash( $_REQUEST['pmpro_stripe_secretkey'] ) ) : '' );
+			update_option( 'pmpro_gateway_environment', isset( $_POST['pmpro_gateway_environment'] ) ? sanitize_text_field( wp_unslash( $_POST['pmpro_gateway_environment'] ) ) : 'live' );
+			update_option( 'pmpro_stripe_publishablekey', isset( $_POST['pmpro_stripe_publishablekey'] ) ? sanitize_text_field( wp_unslash( $_POST['pmpro_stripe_publishablekey'] ) ) : '' );
+			update_option( 'pmpro_stripe_secretkey', isset( $_POST['pmpro_stripe_secretkey'] ) ? sanitize_text_field( wp_unslash( $_POST['pmpro_stripe_secretkey'] ) ) : '' );
 
 			// Set up webhook events as well.
 			$stripe = new PMProGateway_stripe();
