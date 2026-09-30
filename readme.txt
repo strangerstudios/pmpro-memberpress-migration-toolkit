@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, memberpress, migration
 Requires at least: 5.0
-Tested up to: 7.0
-Stable tag: 0.1.1
+Tested up to: 7.1
+Stable tag: 0.1.2
 
 Migrate your MemberPress members, subscriptions, levels, and content restrictions to Paid Memberships Pro with a guided step-by-step wizard.
 
@@ -17,6 +17,10 @@ Adds a toolkit page to help migrate MemberPress membership data to Paid Membersh
 1. Activate the plugin through the 'Plugins' menu in WordPress.
 
 == Changelog ==
+= 0.1.2 - 2026-09-30 =
+* SECURITY: The Levels and Users migration steps now read submitted values only from the POST data that the step nonce verifies. #16 (@dparker1005)
+* SECURITY: Improved sanitization and escaping throughout the plugin to resolve Plugin Check security findings. #15 (@dparker1005)
+
 = 0.1.1 - 2026-06-17 =
 * ENHANCEMENT: User migrations are now queued in batches to avoid timeouts when migrating large sites. #9 (@dparker1005)
 * ENHANCEMENT: Added dependency guards so the migration tools fail gracefully when Paid Memberships Pro is not active. #6 (@dparker1005)
